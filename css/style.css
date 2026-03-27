@@ -745,3 +745,234 @@ li {
   height: 100%;
   width: 100%;
 }
+
+/* Student-side UI refresh */
+body {
+  background: linear-gradient(180deg, #f5f8fc 0%, #eef3f8 100%);
+  color: #1f2d3d;
+}
+
+.brand {
+  background: linear-gradient(135deg, #153a5b, #1f5f8b);
+  box-shadow: 0 14px 28px rgba(17, 45, 74, 0.18);
+}
+
+.brand .menu-btn {
+  background: rgba(12, 27, 43, 0.32);
+}
+
+.brand .ts-profile-nav .ts-account > a {
+  background: rgba(7, 20, 34, 0.2);
+}
+
+.ts-sidebar {
+  background: linear-gradient(180deg, #1f2b37 0%, #17212c 100%);
+  box-shadow: 10px 0 24px rgba(12, 24, 37, 0.12);
+}
+
+.ts-sidebar-menu .ts-label {
+  color: #97aabf;
+  letter-spacing: 0.18em;
+}
+
+.ts-sidebar-menu a {
+  border-radius: 12px;
+  margin: 4px 10px;
+  color: #eff5fb;
+  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.ts-sidebar-menu a:hover,
+.ts-sidebar-menu .open > a,
+.ts-sidebar-menu > .open > a {
+  background: rgba(77, 154, 215, 0.18);
+  border-left: none;
+  transform: translateX(2px);
+}
+
+.ts-sidebar-menu li i {
+  color: #8eb7d8;
+}
+
+.ts-main-content .content-wrapper {
+  padding: 32px 18px 24px;
+}
+
+.page-title {
+  border-bottom: 0;
+  font-family: 'Oswald', sans-serif;
+  font-size: 32px;
+  margin-bottom: 24px;
+  padding-bottom: 0;
+  color: #17324d;
+}
+
+.panel {
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 14px 36px rgba(31, 52, 77, 0.08);
+}
+
+.panel-heading {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 16px 20px;
+  font-weight: 600;
+}
+
+.panel-body {
+  padding: 24px 20px;
+}
+
+.panel-footer {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.block-anchor.panel-footer {
+  background: #f8fbff;
+  color: #1f5f8b;
+  font-weight: 600;
+  border-top: 1px solid #e4edf6;
+}
+
+.table {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.table > thead > tr > th,
+.table > tfoot > tr > th {
+  background: #edf4fb;
+  color: #214364;
+  border-bottom: 0;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.form-control,
+select.form-control {
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #d8e4ef;
+  box-shadow: none;
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 120px;
+}
+
+.form-control:focus,
+select.form-control:focus {
+  border-color: #76a9d2;
+  box-shadow: 0 0 0 3px rgba(55, 118, 170, 0.12);
+}
+
+.btn {
+  border-radius: 12px;
+  padding: 10px 18px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1f5f8b, #2d7ab0);
+  border-color: #1f5f8b;
+}
+
+.btn-default {
+  border-color: #d4dee8;
+  background: #fff;
+}
+
+.student-hero {
+  background: linear-gradient(135deg, #153a5b, #2d7ab0);
+  color: #fff;
+  padding: 28px;
+  border-radius: 24px;
+  box-shadow: 0 22px 46px rgba(21, 58, 91, 0.18);
+  margin-bottom: 26px;
+}
+
+.student-hero h1,
+.student-hero h2,
+.student-hero h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.student-hero p {
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.student-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 14px 34px rgba(24, 44, 67, 0.08);
+  border: 1px solid #edf2f7;
+}
+
+.student-card .icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9f4ff;
+  color: #1f5f8b;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.student-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #16324a;
+}
+
+.student-card p {
+  color: #5d7185;
+  margin-bottom: 18px;
+}
+
+.student-card a {
+  font-weight: 600;
+}
+
+.table-responsive {
+  border: 0;
+}
+
+@media only screen and (max-width: 991px) {
+  .ts-main-content .content-wrapper {
+    margin-left: 0;
+    padding-top: 82px;
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+
+  .student-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-body {
+    padding: 18px 16px;
+  }
+
+  .panel-heading {
+    padding: 14px 16px;
+  }
+}

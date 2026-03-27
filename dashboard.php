@@ -36,50 +36,35 @@ check_login();
 		<?php include("includes/sidebar.php");?>
 		<div class="content-wrapper">
 			<div class="container-fluid">
+				<div class="student-hero">
+					<h2>Welcome, <?php echo htmlspecialchars(isset($_SESSION['name']) ? $_SESSION['name'] : 'Student'); ?></h2>
+					<p>Manage your profile, booking details, password, and hostel activity from one student-friendly dashboard.</p>
+				</div>
 
-				<div class="row" >
-					<div class="col-md-12">
-
-						<h2 class="page-title" style="margin-top:10%">Dashboard</h2>
-						
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-md-3">
-										<div class="panel panel-default">
-											<div class="panel-body bk-primary text-light">
-												<div class="stat-panel text-center">
-
-
-
-													<div class="stat-panel-number h1 ">My Profile</div>
-													
-												</div>
-											</div>
-											<a href="my-profile.php" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div class="panel panel-default">
-											<div class="panel-body bk-success text-light">
-												<div class="stat-panel text-center">
-
-												<div class="stat-panel-number h1 ">My Room</div>
-													
-												</div>
-											</div>
-											<a href="room-details.php" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
-										</div>
-									</div>
-							
-								</div>
-							</div>
-						</div>
-
-					
-						
-						
-
+				<div class="student-grid">
+					<div class="student-card">
+						<div class="icon"><i class="fa fa-user"></i></div>
+						<h3>My Profile</h3>
+						<p>Update your basic details and keep your student information current.</p>
+						<a href="my-profile.php">Open profile <i class="fa fa-arrow-right"></i></a>
+					</div>
+					<div class="student-card">
+						<div class="icon"><i class="fa fa-building-o"></i></div>
+						<h3>My Room</h3>
+						<p>View your room assignment, fee details, and complete hostel booking record.</p>
+						<a href="room-details.php">View room details <i class="fa fa-arrow-right"></i></a>
+					</div>
+					<div class="student-card">
+						<div class="icon"><i class="fa fa-lock"></i></div>
+						<h3>Change Password</h3>
+						<p>Keep your account secure by updating your password whenever needed.</p>
+						<a href="change-password.php">Update password <i class="fa fa-arrow-right"></i></a>
+					</div>
+					<div class="student-card">
+						<div class="icon"><i class="fa fa-file-text-o"></i></div>
+						<h3>Access Log</h3>
+						<p>Review your login history and check recent sign-ins to your account.</p>
+						<a href="access-log.php">See access log <i class="fa fa-arrow-right"></i></a>
 					</div>
 				</div>
 
@@ -98,30 +83,6 @@ check_login();
 	<script src="js/chartData.js"></script>
 	<script src="js/main.js"></script>
 	
-	<script>
-		
-	window.onload = function(){
-    
-		// Line chart from swirlData for dashReport
-		var ctx = document.getElementById("dashReport").getContext("2d");
-		window.myLine = new Chart(ctx).Line(swirlData, {
-			responsive: true,
-			scaleShowVerticalLines: false,
-			scaleBeginAtZero : true,
-			multiTooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-		}); 
-		
-		// Pie Chart from doughutData
-		var doctx = document.getElementById("chart-area3").getContext("2d");
-		window.myDoughnut = new Chart(doctx).Pie(doughnutData, {responsive : true});
-
-		// Dougnut Chart from doughnutData
-		var doctx = document.getElementById("chart-area4").getContext("2d");
-		window.myDoughnut = new Chart(doctx).Doughnut(doughnutData, {responsive : true});
-
-	}
-	</script>
-
 </body>
 
 </html>
