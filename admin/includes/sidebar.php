@@ -19,6 +19,7 @@
 				<li><a href="registration.php"><i class="fa fa-user"></i>Student Registration</a></li>
 				<li><a href="manage-students.php"><i class="fa fa-users"></i>Manage Students</a></li>
 				<li><a href="access-log.php"><i class="fa fa-file"></i>User Access logs</a></li>
+				<li><a href="admin-profile.php"><i class="fa fa-lock"></i>Admin Account</a></li>
 
 			
 		</nav>

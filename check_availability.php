@@ -1,65 +1,61 @@
 <?php
-require_once("includes/config.php");
 session_start();
-include("includes/auth.php");
-if(!empty($_POST["emailid"])) {
-	$email= $_POST["emailid"];
-	if (filter_var($email, FILTER_VALIDATE_EMAIL)===false) {
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
 
-		echo "error : You did not enter a valid email.";
-	}
-	else {
-		$result ="SELECT count(*) FROM userregistration WHERE email=?";
-		$stmt = $mysqli->prepare($result);
-		$stmt->bind_param('s',$email);
-		$stmt->execute();
-$stmt->bind_result($count);
-$stmt->fetch();
-$stmt->close();
-if($count>0)
-{
-echo "<span style='color:red'> Email already exist .</span>";
-}
-else{
-	echo "<span style='color:green'> Email available for registration .</span>";
-}
-}
-}
+if (!empty($_POST['emailid'])) {
+    $email = trim($_POST['emailid']);
 
-if(!empty($_POST["oldpassword"])) 
-{
-if(empty($_SESSION['id'])){
-	echo "<span style='color:red'>Session expired. Please login again.</span>";
-	exit();
-}
-$pass=$_POST["oldpassword"];
-$uid=$_SESSION['id'];
-$result ="SELECT password FROM userregistration WHERE id=?";
-$stmt = $mysqli->prepare($result);
-$stmt->bind_param('i',$uid);
-$stmt->execute();
-$stmt -> bind_result($dbpass);
-$stmt -> fetch();
-$stmt->close();
-if(hms_password_verify($pass,$dbpass)) 
-	echo "<span style='color:green'> Password  matched .</span>";
-else echo "<span style='color:red'> Password Not matched</span>";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<span style='color:red'>Enter a valid email address.</span>";
+        exit();
+    }
+
+    $stmt = $mysqli->prepare('SELECT COUNT(*) FROM users WHERE email = ?');
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    echo $count > 0
+        ? "<span style='color:red'>Email already exists.</span>"
+        : "<span style='color:green'>Email is available.</span>";
+    exit();
 }
 
+if (!empty($_POST['oldpassword'])) {
+    if (empty($_SESSION['user_id']) || empty($_SESSION['role']) || $_SESSION['role'] !== 'user') {
+        echo "<span style='color:red'>Session expired. Please log in again.</span>";
+        exit();
+    }
 
-if(!empty($_POST["roomno"])) 
-{
-$roomno=$_POST["roomno"];
-$result ="SELECT count(*) FROM registration WHERE roomno=?";
-$stmt = $mysqli->prepare($result);
-$stmt->bind_param('i',$roomno);
-$stmt->execute();
-$stmt->bind_result($count);
-$stmt->fetch();
-$stmt->close();
-if($count>0)
-echo "<span style='color:red'>$count. Seats already full.</span>";
-else
-	echo "<span style='color:red'>All Seats are Available</span>";
+    $userId = (int) $_SESSION['user_id'];
+    $oldPassword = trim($_POST['oldpassword']);
+    $stmt = $mysqli->prepare('SELECT password FROM users WHERE id = ? AND role = \'user\' LIMIT 1');
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $stmt->bind_result($storedPassword);
+    $stmt->fetch();
+    $stmt->close();
+
+    echo hms_password_verify($oldPassword, $storedPassword)
+        ? "<span style='color:green'>Password matched.</span>"
+        : "<span style='color:red'>Password not matched.</span>";
+    exit();
+}
+
+if (!empty($_POST['roomno'])) {
+    $roomno = (int) $_POST['roomno'];
+    $stmt = $mysqli->prepare('SELECT COUNT(*) FROM registration WHERE roomno = ?');
+    $stmt->bind_param('i', $roomno);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    echo $count > 0
+        ? "<span style='color:red'>" . $count . " seat(s) already booked.</span>"
+        : "<span style='color:green'>Room is available.</span>";
 }
 ?>
