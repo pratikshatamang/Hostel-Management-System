@@ -16,49 +16,37 @@ if ($isLoggedIn && isset($mysqli) && isset($_SESSION['login'])) {
     $notifStmt->close();
 }
 ?>
-<div class="brand clearfix">
-    <div class="logo-wrap">
-        <a href="<?php echo $isLoggedIn ? 'dashboard.php' : 'login.php'; ?>" class="logo-badge" aria-label="Hostel Management System">
-            <i class="fa fa-building-o"></i>
-        </a>
-        <a href="<?php echo $isLoggedIn ? 'dashboard.php' : 'login.php'; ?>" class="logo">
-            Hostel Management System
-            <small>User Portal</small>
+<header class="brand user-topbar">
+    <div class="user-topbar-left">
+        <a href="<?php echo $isLoggedIn ? 'dashboard.php' : 'login.php'; ?>" class="logo user-brand-mark" aria-label="Hostel Management System">
+            <span class="user-brand-badge"><i class="fa fa-building-o"></i></span>
+            <span class="user-brand-copy">
+                <strong>Hostel Management</strong>
+                <small>User Portal</small>
+            </span>
         </a>
     </div>
 
-    <span class="menu-btn" role="button" aria-label="Toggle navigation">
-        <i class="fa fa-bars"></i>
-    </span>
-
     <?php if ($isLoggedIn): ?>
-        <ul class="ts-profile-nav">
-            <li class="ts-notification-item">
-                <a href="notifications.php" class="ts-notification-link" aria-label="Notifications">
-                    <i class="fa fa-bell"></i>
-                    <?php if ($unreadCount > 0): ?>
-                        <span class="ts-notification-badge"><?php echo $unreadCount; ?></span>
-                    <?php endif; ?>
-                </a>
-            </li>
-            <li class="ts-account">
-                <a href="#">
-                    <span class="account-meta">
-                        <img src="img/ts-avatar.jpg" class="ts-avatar" alt="User avatar">
-                        <span class="account-text">
-                            <strong><?php echo htmlspecialchars($displayName); ?></strong>
-                            <span>Student Menu</span>
-                        </span>
-                    </span>
-                    <i class="fa fa-angle-down hidden-side"></i>
-                </a>
-                <ul>
-                    <li><a href="my-profile.php">My Profile</a></li>
-                    <li><a href="access-log.php">Access Log</a></li>
-                    <li><a href="change-password.php">Change Password</a></li>
-                    <li><a href="logout.php">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
+        <div class="user-topbar-right">
+            <span class="user-topbar-chip hidden-xs">
+                <i class="fa fa-graduation-cap"></i>
+                <span>Student Workspace</span>
+            </span>
+            <a href="notifications.php" class="user-topbar-notification" aria-label="Notifications">
+                <i class="fa fa-bell"></i>
+                <?php if ($unreadCount > 0): ?>
+                    <span class="user-topbar-notification-badge"><?php echo $unreadCount; ?></span>
+                <?php endif; ?>
+            </a>
+            <a href="my-profile.php" class="user-topbar-account" aria-label="My profile" title="<?php echo htmlspecialchars($displayName); ?>">
+                <img src="img/ts-avatar.jpg" class="ts-avatar" alt="User avatar">
+                <span class="user-account-copy hidden-xs">
+                    <strong><?php echo htmlspecialchars($displayName); ?></strong>
+                    <small><i class="fa fa-user-circle-o"></i> Account</small>
+                </span>
+                <i class="fa fa-user-circle-o user-account-icon"></i>
+            </a>
+        </div>
     <?php endif; ?>
-</div>
+</header>

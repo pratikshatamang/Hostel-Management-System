@@ -36,6 +36,42 @@ body {
   box-shadow: 0 12px 30px rgba(14, 36, 56, 0.16);
 }
 
+.brand.user-topbar {
+  min-height: 78px;
+  height: 78px;
+  padding: 10px 22px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(220, 230, 240, 0.95);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.brand.user-topbar .logo {
+  color: var(--ui-heading);
+}
+
+.brand.user-topbar .logo small {
+  color: var(--ui-text-muted);
+}
+
+.brand.user-topbar .user-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.brand.user-topbar .user-brand-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand.user-topbar .user-brand-copy strong {
+  white-space: nowrap;
+  line-height: 1.05;
+}
+
 .brand .logo-wrap {
   display: flex;
   align-items: center;
@@ -159,6 +195,11 @@ body {
   box-shadow: 10px 0 28px rgba(9, 20, 30, 0.16);
 }
 
+.brand.user-topbar + .ts-main-content .ts-sidebar,
+.ts-main-content .ts-sidebar {
+  top: 78px;
+}
+
 .ts-sidebar-menu {
   padding: 18px 0 24px;
 }
@@ -247,8 +288,8 @@ body {
 }
 
 .ts-main-content .content-wrapper {
-  margin-top: 28px;
-  padding: 34px 20px 28px;
+  margin-top: 0;
+  padding: 98px 20px 28px;
 }
 
 .ui-page-head {
@@ -949,13 +990,19 @@ select.form-control:focus {
     padding: 0 14px;
   }
 
+  .brand.user-topbar {
+    min-height: 74px;
+    height: auto;
+    padding: 10px 14px;
+  }
+
   .brand .logo {
     font-size: 16px !important;
   }
 
   .ts-main-content .content-wrapper {
     margin-left: 0;
-    padding: 96px 16px 24px;
+    padding: 92px 16px 24px;
   }
 
   .ui-hero,
@@ -986,6 +1033,10 @@ select.form-control:focus {
 }
 
 @media only screen and (max-width: 767px) {
+  .brand.user-topbar {
+    min-height: 74px;
+  }
+
   .brand .logo small,
   .brand .account-text span,
   .menu-note,

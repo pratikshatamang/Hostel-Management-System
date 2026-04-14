@@ -32,9 +32,6 @@ function hms_sidebar_group_active($pages, $currentPage)
                     <li<?php echo hms_sidebar_active('change-password.php', $currentPage); ?>>
                         <a href="<?php echo $baseUrl; ?>change-password.php">Change Password</a>
                     </li>
-                    <li>
-                        <a href="<?php echo $baseUrl; ?>logout.php">Logout</a>
-                    </li>
                 </ul>
             </li>
             <li<?php echo hms_sidebar_active('book-hostel.php', $currentPage); ?>>
@@ -48,6 +45,10 @@ function hms_sidebar_group_active($pages, $currentPage)
             <li<?php echo hms_sidebar_active('payment-history.php', $currentPage); ?>>
                 <a href="<?php echo $baseUrl; ?>payment-history.php"><i class="fa fa-credit-card"></i><span>Payment History</span></a>
                 <span class="menu-note">See payments by room booking</span>
+            </li>
+            <li>
+                <a href="<?php echo $baseUrl; ?>logout.php"><i class="fa fa-sign-out"></i><span>Logout</span></a>
+                <span class="menu-note">Sign out safely</span>
             </li>
         <?php } else { ?>
             <li<?php echo hms_sidebar_active('registration.php', $currentPage); ?>>

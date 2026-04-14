@@ -230,46 +230,16 @@ INSERT INTO `rooms` (`id`, `seater`, `room_no`, `fees`, `attached_bathroom`, `ai
 (5, 5, 132, 2000, 0, 0, 0, 0, 0, 'Basic economy room.', 'available');
 
 INSERT INTO `states` (`id`, `State`) VALUES
-(1, 'Andaman and Nicobar Island (UT)'),
-(2, 'Andhra Pradesh'),
-(3, 'Arunachal Pradesh'),
-(4, 'Assam'),
-(5, 'Bihar'),
-(6, 'Chandigarh (UT)'),
-(7, 'Chhattisgarh'),
-(8, 'Dadra and Nagar Haveli (UT)'),
-(9, 'Daman and Diu (UT)'),
-(10, 'Delhi (NCT)'),
-(11, 'Goa'),
-(12, 'Gujarat'),
-(13, 'Haryana'),
-(14, 'Himachal Pradesh'),
-(15, 'Jammu and Kashmir'),
-(16, 'Jharkhand'),
-(17, 'Karnataka'),
-(18, 'Kerala'),
-(19, 'Lakshadweep (UT)'),
-(20, 'Madhya Pradesh'),
-(21, 'Maharashtra'),
-(22, 'Manipur'),
-(23, 'Meghalaya'),
-(24, 'Mizoram'),
-(25, 'Nagaland'),
-(26, 'Odisha'),
-(27, 'Puducherry (UT)'),
-(28, 'Punjab'),
-(29, 'Rajasthan'),
-(30, 'Sikkim'),
-(31, 'Tamil Nadu'),
-(32, 'Telangana'),
-(33, 'Tripura'),
-(34, 'Uttarakhand'),
-(35, 'Uttar Pradesh'),
-(36, 'West Bengal');
+(1, 'Koshi Province'),
+(2, 'Madhesh Province'),
+(3, 'Bagmati Province'),
+(4, 'Gandaki Province'),
+(5, 'Lumbini Province'),
+(6, 'Karnali Province'),
+(7, 'Sudurpashchim Province');
 
 ALTER TABLE `admin` AUTO_INCREMENT = 2;
 ALTER TABLE `courses` AUTO_INCREMENT = 8;
 ALTER TABLE `rooms` AUTO_INCREMENT = 6;
-ALTER TABLE `states` AUTO_INCREMENT = 37;
+ALTER TABLE `states` AUTO_INCREMENT = 8;
 ALTER TABLE `users` AUTO_INCREMENT = 2;
-

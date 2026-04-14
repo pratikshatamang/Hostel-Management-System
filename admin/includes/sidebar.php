@@ -49,6 +49,9 @@
         <li class="<?php echo $currentPage === 'admin-profile.php' ? 'active' : ''; ?>">
             <a href="admin-profile.php"><i class="fa fa-lock"></i><span>Admin Account</span></a>
         </li>
+        <li>
+            <a href="../logout.php"><i class="fa fa-sign-out"></i><span>Logout</span></a>
+        </li>
     </ul>
 </nav>
 <div class="admin-sidebar-backdrop"></div>
