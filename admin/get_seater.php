@@ -1,38 +1,29 @@
 <?php
-include('includes/pdoconfig.php');
-include('includes/dbcontroller.php');
+include('includes/config.php');
 
+if (!empty($_POST["roomid"])) {
+    $id = (int) $_POST['roomid'];
+    $stmt = $mysqli->prepare("SELECT seater FROM rooms WHERE room_no = ?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->bind_result($seater);
+    $stmt->fetch();
+    $stmt->close();
 
-if(!empty($_POST["roomid"])) {	
-    $id=$_POST['roomid'];
-    $stmt = $DB_con->prepare("SELECT * FROM rooms WHERE room_no = :id");
-    $stmt->execute(array(':id' => $id));
-?>
- 
-    <?php
-    while($row=$stmt->fetch(PDO::FETCH_ASSOC))
-    {
-    ?>
-    <?php echo htmlentities($row['seater']); ?>
-    <?php
-    }
+    echo htmlentities($seater);
+    exit();
 }
 
+if (!empty($_POST["rid"])) {
+    $id = (int) $_POST['rid'];
+    $stmt = $mysqli->prepare("SELECT fees FROM rooms WHERE room_no = ?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->bind_result($fees);
+    $stmt->fetch();
+    $stmt->close();
 
-
-if(!empty($_POST["rid"])) 
-{	
-$id=$_POST['rid'];
-$stmt = $DB_con->prepare("SELECT * FROM rooms WHERE room_no = :id");
-$stmt->execute(array(':id' => $id));
-?>
- <?php
- while($row=$stmt->fetch(PDO::FETCH_ASSOC))
- {
-  ?>
- <?php echo htmlentities($row['fees']); ?>
-  <?php
- }
+    echo htmlentities($fees);
+    exit();
 }
-
 ?>

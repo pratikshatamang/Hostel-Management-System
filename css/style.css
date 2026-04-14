@@ -976,3 +976,52 @@ select.form-control:focus {
     padding: 14px 16px;
   }
 }
+
+.brand .ts-profile-nav .ts-notification-item {
+  margin-right: 10px;
+}
+
+.brand .ts-profile-nav .ts-notification-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  padding: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.brand .ts-profile-nav .ts-notification-link:hover,
+.brand .ts-profile-nav .ts-notification-link:focus {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.brand .ts-profile-nav .ts-notification-link .fa-bell {
+  font-size: 18px;
+}
+
+.ts-notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e74c3c;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid #183153;
+}

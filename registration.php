@@ -150,42 +150,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta name="theme-color" content="#0d4d4a">
     <title>User Registration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <style>
-        body { font-family: 'Poppins', sans-serif; min-height: 100vh; background: linear-gradient(135deg, #edf8f7 0%, #e0f0ef 48%, #f8fcfc 100%); color: #1f3c3a; }
-        .register-shell { padding: 28px 15px; }
-        .register-card { max-width: 1080px; margin: 0 auto; background: #fff; border-radius: 22px; overflow: hidden; box-shadow: 0 22px 48px rgba(19, 64, 60, .14); }
-        .register-side { background: linear-gradient(160deg, #0f766e, #0b4f57); color: #fff; padding: 38px 34px; min-height: 100%; }
-        .register-side h1 { margin-top: 0; font-size: 32px; font-weight: 700; }
-        .register-side p { line-height: 1.8; font-size: 14px; max-width: 360px; }
-        .register-side ul { list-style: none; padding: 0; margin: 24px 0 0; }
-        .register-side li { margin-bottom: 12px; font-size: 14px; }
-        .register-side i { width: 22px; color: #ffd166; }
-        .register-form { padding: 38px 34px; }
-        .register-form h2 { margin-top: 0; font-size: 28px; font-weight: 700; }
-        .register-form p { color: #557370; margin-bottom: 22px; }
-        .form-control { height: 46px; border-radius: 12px; border: 1px solid #d8e7e5; box-shadow: none; }
-        textarea.form-control { height: auto; }
-        .form-control:focus { border-color: #57a59d; box-shadow: 0 0 0 3px rgba(15, 118, 110, .12); }
-        .btn-register { height: 48px; border: 0; border-radius: 12px; font-weight: 600; background: linear-gradient(135deg, #0f766e, #15988d); }
-        .helper-link { margin-top: 16px; }
-        .helper-link a { color: #0f766e; font-weight: 600; text-decoration: none; }
-        @media (max-width: 991px) { .register-side, .register-form { padding: 28px 24px; } }
-    </style>
+    <link rel="stylesheet" href="css/user-ui.css">
 </head>
 <body>
-    <div class="register-shell">
+<div class="register-shell">
+    <div class="container-fluid">
         <div class="register-card row">
             <div class="col-md-4">
                 <div class="register-side">
+                    <span class="auth-badge">New Student Account</span>
                     <h1>Create Student Account</h1>
-                    <p>This is  registration page for Hostel Management System. Register </p>
+                    <p>Register once to access your hostel dashboard, complete booking details, review room information, and manage your password from the student portal.</p>
                     <ul>
-                        <li><i class="fa fa-check-circle"></i> Public registration always saves role as user</li>
-                        <li><i class="fa fa-check-circle"></i> Email and username duplicates are blocked</li>
-                        <li><i class="fa fa-check-circle"></i> Passwords are stored securely with hashing</li>
+                        <li><i class="fa fa-check-circle"></i> Public registration saves the account as a user role</li>
+                        <li><i class="fa fa-check-circle"></i> Duplicate email, username, and registration number checks stay in place</li>
+                        <li><i class="fa fa-check-circle"></i> Passwords remain protected with secure hashing</li>
                     </ul>
                 </div>
             </div>
@@ -197,7 +178,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php if ($successMessage !== ''): ?>
                         <div class="alert alert-success"><?php echo htmlspecialchars($successMessage); ?></div>
                     <?php endif; ?>
-
                     <?php if ($errors): ?>
                         <div class="alert alert-danger"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
                     <?php endif; ?>
@@ -289,5 +269,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

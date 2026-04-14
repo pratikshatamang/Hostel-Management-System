@@ -1,0 +1,5 @@
+USE hostel;
+
+ALTER TABLE registration
+  ADD COLUMN IF NOT EXISTS renewal_count INT DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS checkout_date DATE DEFAULT NULL;

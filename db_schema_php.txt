@@ -1,0 +1,105 @@
+TABLE: admin
+  id - int(11)
+  username - varchar(255)
+  email - varchar(255)
+  password - varchar(300)
+  reg_date - timestamp
+  updation_date - date
+TABLE: adminlog
+  id - int(11)
+  adminid - int(11)
+  ip - varbinary(16)
+  logintime - timestamp
+TABLE: courses
+  id - int(11)
+  course_code - varchar(255)
+  course_sn - varchar(255)
+  course_fn - varchar(255)
+  posting_date - timestamp
+TABLE: email_logs
+  id - int(11)
+  user_id - int(11)
+  email_to - varchar(255)
+  subject - varchar(255)
+  type - varchar(50)
+  status - enum('sent','failed')
+  error_message - text
+  created_at - timestamp
+TABLE: registration
+  id - int(11)
+  roomno - int(11)
+  seater - int(11)
+  feespm - int(11)
+  foodstatus - int(11)
+  stayfrom - date
+  duration - int(11)
+  course - varchar(500)
+  regno - int(11)
+  firstName - varchar(500)
+  middleName - varchar(500)
+  lastName - varchar(500)
+  gender - varchar(250)
+  contactno - bigint(11)
+  emailid - varchar(500)
+  egycontactno - bigint(11)
+  guardianName - varchar(500)
+  guardianRelation - varchar(500)
+  guardianContactno - bigint(11)
+  corresAddress - varchar(500)
+  corresCIty - varchar(500)
+  corresState - varchar(500)
+  corresPincode - int(11)
+  pmntAddress - varchar(500)
+  pmntCity - varchar(500)
+  pmnatetState - varchar(500)
+  pmntPincode - int(11)
+  postingDate - timestamp
+  updationDate - varchar(500)
+TABLE: rooms
+  id - int(11)
+  seater - int(11)
+  room_no - int(11)
+  fees - int(11)
+  posting_date - timestamp
+  attached_bathroom - tinyint(1)
+  air_conditioner - tinyint(1)
+  wifi - tinyint(1)
+  balcony - tinyint(1)
+  study_table - tinyint(1)
+  room_status - enum('available','full','maintenance')
+  description - text
+TABLE: states
+  id - int(11)
+  State - varchar(150)
+TABLE: userlog
+  id - int(11)
+  userId - int(11)
+  userEmail - varchar(255)
+  userIp - varbinary(16)
+  city - varchar(255)
+  country - varchar(255)
+  loginTime - timestamp
+TABLE: userregistration
+  id - int(11)
+  regNo - varchar(255)
+  firstName - varchar(255)
+  middleName - varchar(255)
+  lastName - varchar(255)
+  gender - varchar(255)
+  contactNo - bigint(20)
+  email - varchar(255)
+  password - varchar(255)
+  regDate - timestamp
+  updationDate - varchar(45)
+  passUdateDate - varchar(45)
+TABLE: users
+  id - int(11)
+  full_name - varchar(255)
+  email - varchar(255)
+  username - varchar(100)
+  phone - varchar(20)
+  password - varchar(255)
+  role - enum('admin','user')
+  legacy_id - int(11)
+  created_at - timestamp
+  updated_at - timestamp

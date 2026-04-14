@@ -1,0 +1,6 @@
+USE hostel;
+
+ALTER TABLE registration
+  ADD COLUMN IF NOT EXISTS payment_method VARCHAR(50) DEFAULT 'cash',
+  ADD COLUMN IF NOT EXISTS payment_status VARCHAR(50) DEFAULT 'pending',
+  ADD COLUMN IF NOT EXISTS transaction_id VARCHAR(255) DEFAULT NULL;

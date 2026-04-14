@@ -69,74 +69,98 @@ $detailsStmt->close();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <meta name="theme-color" content="#3e454c">
+    <meta name="theme-color" content="#183153">
     <title>Change Password</title>
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-ui.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
-    <div class="ts-main-content">
-        <?php include 'includes/sidebar.php'; ?>
-        <div class="content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-10">
-                        <h2 class="page-title">Change Password</h2>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Last password update: <?php echo htmlspecialchars($lastPasswordUpdate !== '' ? $lastPasswordUpdate : 'Not available'); ?></div>
-                            <div class="panel-body">
-                                <?php if ($successMessage !== ''): ?>
-                                    <div class="alert alert-success"><?php echo htmlspecialchars($successMessage); ?></div>
-                                <?php endif; ?>
-                                <?php if ($errors): ?>
-                                    <div class="alert alert-danger"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
-                                <?php endif; ?>
-                                <form method="post" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Old Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" name="oldpassword" id="oldpassword" class="form-control" onblur="checkpass()" required>
-                                            <span id="password-availability-status" class="help-block"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">New Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" name="newpassword" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Confirm Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" name="cpassword" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-sm-offset-4">
-                                        <button type="submit" class="btn btn-primary">Change Password</button>
-                                    </div>
-                                </form>
-                            </div>
+<?php include 'includes/header.php'; ?>
+<div class="ts-main-content">
+    <?php include 'includes/sidebar.php'; ?>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <section class="ui-hero">
+                <span class="ui-badge"><i class="fa fa-lock"></i> Account Security</span>
+                <h2>Change Password</h2>
+                <p>Use strong password.</p>
+            </section>
+
+            <div class="ui-grid cols-2">
+                <div class="ui-surface ui-data-card">
+                    <h3 class="ui-section-title">Security Summary</h3>
+                    <div class="ui-data-list">
+                        <div class="ui-data-item">
+                            <span>Last Password Update</span>
+                            <strong><?php echo htmlspecialchars($lastPasswordUpdate !== '' ? $lastPasswordUpdate : 'Not available'); ?></strong>
                         </div>
+                        <div class="ui-data-item">
+                            <span>Account Owner</span>
+                            <strong><?php echo htmlspecialchars(isset($_SESSION['name']) ? $_SESSION['name'] : 'Student'); ?></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-surface">
+                    <div class="ui-surface-head">
+                        <h3>Update Password</h3>
+                        <p>Use your current password first, then choose a new password with at least 6 characters.</p>
+                    </div>
+                    <div class="ui-surface-body">
+                        <div class="ui-alert-stack">
+                            <?php if ($successMessage !== ''): ?>
+                                <div class="alert alert-success"><?php echo htmlspecialchars($successMessage); ?></div>
+                            <?php endif; ?>
+                            <?php if ($errors): ?>
+                                <div class="alert alert-danger"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <form method="post" class="ui-form">
+                            <div class="form-group">
+                                <label for="oldpassword">Old Password</label>
+                                <input type="password" name="oldpassword" id="oldpassword" class="form-control" onblur="checkpass()" required>
+                                <span id="password-availability-status" class="ui-form-help"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newpassword">New Password</label>
+                                <input type="password" name="newpassword" id="newpassword" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cpassword">Confirm Password</label>
+                                <input type="password" name="cpassword" id="cpassword" class="form-control" required>
+                            </div>
+
+                            <div class="ui-actions">
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                                <a href="dashboard.php" class="btn btn-default">Cancel</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script>
-        function checkpass() {
-            $.ajax({
-                url: "check_availability.php",
-                data: { oldpassword: $("#oldpassword").val() },
-                type: "POST",
-                success: function(data) {
-                    $("#password-availability-status").html(data);
-                }
-            });
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+function checkpass() {
+    $.ajax({
+        url: "check_availability.php",
+        data: { oldpassword: $("#oldpassword").val() },
+        type: "POST",
+        success: function(data) {
+            $("#password-availability-status").html(data);
         }
-    </script>
+    });
+}
+</script>
 </body>
 </html>

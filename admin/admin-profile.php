@@ -122,74 +122,99 @@ $stmt->close();
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="page-title">Admin Profile</h2>
+                        <div class="admin-page-header admin-page-header-management">
+                            <div>
+                                <span class="admin-page-kicker">Account Settings</span>
+                                <h2 class="page-title">Admin Profile</h2>
+                                <p class="admin-page-subtitle">Manage your personal information and account settings without changing the current profile update or password change logic.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <?php if ($successMessage !== ''): ?>
-                    <div class="alert alert-success"><?php echo htmlspecialchars($successMessage); ?></div>
-                <?php endif; ?>
-                <?php if ($passwordMessage !== ''): ?>
-                    <div class="alert alert-success"><?php echo htmlspecialchars($passwordMessage); ?></div>
-                <?php endif; ?>
-                <?php if ($errors): ?>
-                    <div class="alert alert-danger"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
-                <?php endif; ?>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Admin account details</div>
+
+                <div class="admin-inline-alerts">
+                    <?php if ($successMessage !== ''): ?>
+                        <div class="alert alert-success"><?php echo htmlspecialchars($successMessage); ?></div>
+                    <?php endif; ?>
+                    <?php if ($passwordMessage !== ''): ?>
+                        <div class="alert alert-success"><?php echo htmlspecialchars($passwordMessage); ?></div>
+                    <?php endif; ?>
+                    <?php if ($errors): ?>
+                        <div class="alert alert-danger"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="admin-profile-grid">
+                    <div>
+                        <div class="panel panel-default admin-form-card">
+                            <div class="panel-heading">
+                                <h3 class="admin-form-title">Admin Account Details</h3>
+                                <p class="admin-form-subtitle">Update your email while preserving the current admin account record and session flow.</p>
+                            </div>
                             <div class="panel-body">
-                                <form method="post" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Username</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" value="<?php echo htmlspecialchars($profile['username']); ?>" disabled>
+                                <form method="post" class="admin-form">
+                                    <div class="admin-form-section">
+                                        <div class="admin-form-grid">
+                                            <div class="admin-form-col-12">
+                                                <div class="form-group">
+                                                    <label>Username</label>
+                                                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($profile['username']); ?>" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="admin-form-col-12">
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input type="email" name="emailid" id="emailid" class="form-control" value="<?php echo htmlspecialchars($profile['email']); ?>" required>
+                                                </div>
+                                            </div>
+                                            <div class="admin-form-col-12">
+                                                <div class="form-group">
+                                                    <label>Created</label>
+                                                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($profile['reg_date'] !== null ? $profile['reg_date'] : $profile['created_at']); ?>" disabled>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Email</label>
-                                        <div class="col-sm-9">
-                                            <input type="email" name="emailid" id="emailid" class="form-control" value="<?php echo htmlspecialchars($profile['email']); ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Created</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" value="<?php echo htmlspecialchars($profile['reg_date'] !== null ? $profile['reg_date'] : $profile['created_at']); ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9 col-sm-offset-3">
+                                    <div class="admin-form-actions">
                                         <button type="submit" name="update" class="btn btn-primary">Update Profile</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Change Password</div>
+
+                    <div>
+                        <div class="panel panel-default admin-form-card">
+                            <div class="panel-heading">
+                                <h3 class="admin-form-title">Change Password</h3>
+                                <p class="admin-form-subtitle">Use the same password validation and availability check flow in a cleaner form layout.</p>
+                            </div>
                             <div class="panel-body">
-                                <form method="post" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Old Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" name="oldpassword" id="oldpassword" class="form-control" onblur="checkpass()" required>
-                                            <span id="password-availability-status" class="help-block"></span>
+                                <form method="post" class="admin-form">
+                                    <div class="admin-form-section">
+                                        <div class="admin-form-grid">
+                                            <div class="admin-form-col-12">
+                                                <div class="form-group">
+                                                    <label>Old Password</label>
+                                                    <input type="password" name="oldpassword" id="oldpassword" class="form-control" onblur="checkpass()" required>
+                                                    <span id="password-availability-status" class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <div class="admin-form-col-12">
+                                                <div class="form-group">
+                                                    <label>New Password</label>
+                                                    <input type="password" name="newpassword" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="admin-form-col-12">
+                                                <div class="form-group">
+                                                    <label>Confirm Password</label>
+                                                    <input type="password" name="cpassword" class="form-control" required>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">New Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" name="newpassword" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">Confirm Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" name="cpassword" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-8 col-sm-offset-4">
+                                    <div class="admin-form-actions">
                                         <button type="submit" name="changepwd" class="btn btn-primary">Change Password</button>
                                     </div>
                                 </form>

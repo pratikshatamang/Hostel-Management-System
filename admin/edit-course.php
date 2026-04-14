@@ -48,70 +48,69 @@ echo"<script>alert('Course has been Updated successfully');</script>";
 
 				<div class="row">
 					<div class="col-md-12">
-					
-						<h2 class="page-title">Edit Course </h2>
+						<div class="admin-page-header admin-page-header-management">
+							<div>
+								<span class="admin-page-kicker">Course Update</span>
+								<h2 class="page-title">Edit Course</h2>
+								<p class="admin-page-subtitle">Update course information without changing the existing update query, field names, or submission flow.</p>
+							</div>
+						</div>
 	
-						<div class="row">
-							<div class="col-md-12">
-								<div class="panel panel-default">
-									<div class="panel-heading">Edit courses</div>
-									<div class="panel-body">
-										<form method="post" class="form-horizontal">
-												<?php	
-												$id=$_GET['id'];
-	$ret="select * from courses where id=?";
-		$stmt= $mysqli->prepare($ret) ;
-	 $stmt->bind_param('i',$id);
-	 $stmt->execute() ;//ok
-	 $res=$stmt->get_result();
-	 //$cnt=1;
-	   while($row=$res->fetch_object())
-	  {
-	  	?>
-						<div class="hr-dashed"></div>
-						<div class="form-group">
-						<label class="col-sm-2 control-label">Course Code </label>
-					<div class="col-sm-8">
-					<input type="text"  name="cc" value="<?php echo $row->course_code;?>"  class="form-control"> </div>
-					</div>
-				 <div class="form-group">
-				<label class="col-sm-2 control-label">Course Name (Short)</label>
-		<div class="col-sm-8">
-	<input type="text" class="form-control" name="cns" id="cns" value="<?php echo $row->course_sn;?>" required="required">
-						 </div>
-						</div>
-<div class="form-group">
-									<label class="col-sm-2 control-label">Course Name(Full)</label>
-									<div class="col-sm-8">
-									<input type="text" class="form-control" name="cnf" value="<?php echo $row->course_fn;?>" >
-												</div>
-											</div>
-
-
-<?php } ?>
-												<div class="col-sm-8 col-sm-offset-2">
-													
-													<input class="btn btn-primary" type="submit" name="submit" value="Update Course">
-												</div>
-											</div>
-
-										</form>
-
-									</div>
+						<div class="admin-form-shell">
+							<div class="panel panel-default admin-form-card">
+								<div class="panel-heading">
+									<h3 class="admin-form-title">Edit Course</h3>
+									<p class="admin-form-subtitle">Existing values remain prefilled exactly as before.</p>
 								</div>
-									
-							
-							</div>
-						
-									
-							
+								<div class="panel-body">
+									<form method="post" class="admin-form">
+										<?php	
+										$id=$_GET['id'];
+										$ret="select * from courses where id=?";
+										$stmt= $mysqli->prepare($ret) ;
+										$stmt->bind_param('i',$id);
+										$stmt->execute() ;
+										$res=$stmt->get_result();
+										while($row=$res->fetch_object())
+										{
+										?>
+										<div class="admin-form-section">
+											<h4 class="admin-form-section-title">Course Information</h4>
+											<p class="admin-form-section-note">Update the current course details using the same form fields already expected by this page.</p>
+											<div class="admin-form-grid">
+												<div class="admin-form-col-4">
+													<div class="form-group">
+														<label>Course Code</label>
+														<input type="text" name="cc" value="<?php echo $row->course_code;?>" class="form-control">
+													</div>
+												</div>
+												<div class="admin-form-col-4">
+													<div class="form-group">
+														<label>Course Name (Short)</label>
+														<input type="text" class="form-control" name="cns" id="cns" value="<?php echo $row->course_sn;?>" required="required">
+													</div>
+												</div>
+												<div class="admin-form-col-4">
+													<div class="form-group">
+														<label>Course Name(Full)</label>
+														<input type="text" class="form-control" name="cnf" value="<?php echo $row->course_fn;?>" >
+													</div>
+												</div>
+											</div>
+										</div>
+										<?php } ?>
+										<div class="admin-form-actions">
+											<input class="btn btn-primary" type="submit" name="submit" value="Update Course">
+											<a href="manage-courses.php" class="btn admin-btn-secondary">Back to Courses</a>
+										</div>
 
+									</form>
+
+								</div>
 							</div>
 						</div>
-
 					</div>
 				</div> 	
-				
 
 			</div>
 		</div>

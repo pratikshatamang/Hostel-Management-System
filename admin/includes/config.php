@@ -1,7 +1,3 @@
 <?php
-$dbuser = "root";
-$dbpass = "";
-$host = "localhost";
-$db = "hostel";
-$mysqli = new mysqli($host, $dbuser, $dbpass, $db, 3307);
+require_once dirname(__DIR__, 2) . '/includes/config.php';
 ?>

@@ -45,11 +45,30 @@ if(isset($_GET['del']))
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title" style="margin-top:4%">Manage Course</h2>
-						<div class="panel panel-default">
-							<div class="panel-heading">All Courses Details</div>
+						<div class="admin-page-header admin-page-header-management">
+							<div>
+								<span class="admin-page-kicker">Course Management</span>
+								<h2 class="page-title">Manage Courses</h2>
+								<p class="admin-page-subtitle">Organize available academic courses and keep the hostel registration catalog clean and up to date.</p>
+							</div>
+							<div class="admin-page-actions">
+								<a href="add-courses.php" class="btn admin-btn admin-btn-primary">
+									<i class="fa fa-plus"></i>
+									<span>Add Course</span>
+								</a>
+							</div>
+						</div>
+
+						<div class="panel panel-default admin-table-card">
+							<div class="panel-heading admin-table-card-head">
+								<div>
+									<h3 class="admin-section-title">All Course Details</h3>
+									<p class="admin-section-subtitle">Edit or remove course entries using the same existing actions.</p>
+								</div>
+							</div>
 							<div class="panel-body">
-								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+								<div class="table-responsive admin-table-wrap">
+								<table id="zctb" class="display table admin-data-table" cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th>Sno.</th>
@@ -86,8 +105,8 @@ while($row=$res->fetch_object())
 <td><?php echo $row->course_sn;?></td>
 <td><?php echo $row->course_fn;?></td>
 <td><?php echo $row->posting_date;?></td>
-<td><a href="edit-course.php?id=<?php echo $row->id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-<a href="manage-courses.php?del=<?php echo $row->id;?>" onclick="return confirm("Do you want to delete");"><i class="fa fa-close"></i></a></td>
+<td class="admin-actions-cell"><a href="edit-course.php?id=<?php echo $row->id;?>" class="admin-action-btn admin-action-btn-edit"><i class="fa fa-edit"></i><span>Edit</span></a>
+<a href="manage-courses.php?del=<?php echo $row->id;?>" class="admin-action-btn admin-action-btn-delete" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i><span>Delete</span></a></td>
 										</tr>
 									<?php
 $cnt=$cnt+1;
@@ -96,6 +115,7 @@ $cnt=$cnt+1;
 										
 									</tbody>
 								</table>
+								</div>
 
 								
 							</div>

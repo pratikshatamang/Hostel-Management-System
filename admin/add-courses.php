@@ -48,61 +48,57 @@ echo"<script>alert('Course has been added successfully');</script>";
 
 				<div class="row">
 					<div class="col-md-12">
-					
-						<h2 class="page-title">Add Courses </h2>
-	
-						<div class="row">
-							<div class="col-md-12">
-								<div class="panel panel-default">
-									<div class="panel-heading">Add courses</div>
-									<div class="panel-body">
-										<form method="post" class="form-horizontal">
-											
-											<div class="hr-dashed"></div>
-											<div class="form-group">
-												<label class="col-sm-2 control-label">Course Code </label>
-												<div class="col-sm-8">
-													<input type="text" value="" name="cc"  class="form-control"> </div>
-											</div>
-											<div class="form-group">
-												<label class="col-sm-2 control-label">Course Name (Short)</label>
-												<div class="col-sm-8">
-	<input type="text" class="form-control" name="cns" id="cns" value="" required="required">
-						 
-												</div>
-											</div>
-<div class="form-group">
-									<label class="col-sm-2 control-label">Course Name(Full)</label>
-									<div class="col-sm-8">
-									<input type="text" class="form-control" name="cnf" value="" >
-												</div>
-											</div>
-
-
-
-												<div class="col-sm-8 col-sm-offset-2">
-													
-													<input class="btn btn-primary" type="submit" name="submit" value="Add course">
-												</div>
-											</div>
-
-										</form>
-
-									</div>
-								</div>
-									
-							
+						<div class="admin-page-header admin-page-header-management">
+							<div>
+								<span class="admin-page-kicker">Course Setup</span>
+								<h2 class="page-title">Add Courses</h2>
+								<p class="admin-page-subtitle">Create a new course entry for hostel registration while keeping the existing save behavior unchanged.</p>
 							</div>
-						
-									
-							
+						</div>
 
+						<div class="admin-form-shell">
+							<div class="panel panel-default admin-form-card">
+								<div class="panel-heading">
+									<h3 class="admin-form-title">Add Course</h3>
+									<p class="admin-form-subtitle">Enter the course code, short name, and full name using the same field names already used by the page.</p>
+								</div>
+								<div class="panel-body">
+									<form method="post" class="admin-form">
+										<div class="admin-form-section">
+											<h4 class="admin-form-section-title">Course Information</h4>
+											<p class="admin-form-section-note">These fields map to the same insert query and submission action as before.</p>
+											<div class="admin-form-grid">
+												<div class="admin-form-col-4">
+													<div class="form-group">
+														<label>Course Code</label>
+														<input type="text" value="" name="cc" class="form-control">
+													</div>
+												</div>
+												<div class="admin-form-col-4">
+													<div class="form-group">
+														<label>Course Name (Short)</label>
+														<input type="text" class="form-control" name="cns" id="cns" value="" required="required">
+													</div>
+												</div>
+												<div class="admin-form-col-4">
+													<div class="form-group">
+														<label>Course Name(Full)</label>
+														<input type="text" class="form-control" name="cnf" value="">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="admin-form-actions">
+											<input class="btn btn-primary" type="submit" name="submit" value="Add course">
+											<a href="manage-courses.php" class="btn admin-btn-secondary">Back to Courses</a>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
 
 					</div>
 				</div> 	
-				
 
 			</div>
 		</div>

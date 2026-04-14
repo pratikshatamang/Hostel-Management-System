@@ -2,7 +2,20 @@
 session_start();
 include('includes/config.php');
 include('includes/checklogin.php');
+include('../includes/booking.php');
 check_login();
+
+if(isset($_GET['renew']))
+{
+    $id=intval($_GET['renew']);
+    $adn="UPDATE registration SET duration = duration + 1, renewal_count = renewal_count + 1 WHERE id=?";
+    $stmt= $mysqli->prepare($adn);
+    $stmt->bind_param('i',$id);
+    $stmt->execute();
+    $stmt->close();	   
+    echo "<script>alert('Student renewed successfully by 1 month'); window.location.href='manage-students.php';</script>" ;
+    exit;
+}
 
 if(isset($_GET['del']))
 {
@@ -57,20 +70,40 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title" style="margin-top:4%">Manage Registred Students</h2>
-						<div class="panel panel-default">
-							<div class="panel-heading">All Room Details</div>
+						<div class="admin-page-header admin-page-header-management">
+							<div>
+								<span class="admin-page-kicker">Student Records</span>
+								<h2 class="page-title">Manage Registered Students</h2>
+								<p class="admin-page-subtitle">Review hostel student allocations, contact details, and registration records in a clearer, more usable table view.</p>
+							</div>
+							<div class="admin-page-actions">
+								<a href="registration.php" class="btn admin-btn admin-btn-primary">
+									<i class="fa fa-user-plus"></i>
+									<span>Add Student</span>
+								</a>
+							</div>
+						</div>
+
+						<div class="panel panel-default admin-table-card">
+							<div class="panel-heading admin-table-card-head">
+								<div>
+									<h3 class="admin-section-title">All Student Records</h3>
+									<p class="admin-section-subtitle">View details or remove records using the same existing management actions.</p>
+								</div>
+							</div>
 							<div class="panel-body">
-								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+								<div class="table-responsive admin-table-wrap">
+								<table id="zctb" class="display table admin-data-table" cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th>Sno.</th>
 											<th>Student Name</th>
 											<th>Reg no</th>
 											<th>Contact no </th>
-											<th>room no  </th>
+											<th>Room no  </th>
 											<th>Seater </th>
 											<th>Staying From </th>
+											<th>Status</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -83,6 +116,7 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 											<th>Room no  </th>
 											<th>Seater </th>
 											<th>Staying From </th>
+											<th>Status</th>
 											<th>Action</th>
 										</tr>
 									</tfoot>
@@ -106,8 +140,31 @@ while($row=$res->fetch_object())
 <td><?php echo $row->seater;?></td>
 <td><?php echo $row->stayfrom;?></td>
 <td>
-<a href="javascript:void(0);"  onClick="popUpWindow('http://localhost/hostel/admin/full-profile.php?id=<?php echo $row->id;?>');" title="View Full Details"><i class="fa fa-desktop"></i></a>&nbsp;&nbsp;
-<a href="manage-students.php?del=<?php echo $row->id;?>" title="Delete Record" onclick="return confirm("Do you want to delete");"><i class="fa fa-close"></i></a></td>
+    <?php
+    $timeline = hms_build_booking_timeline((array)$row);
+    $statusLabel = htmlspecialchars($timeline['booking_status_label']);
+    $statusKey = $timeline['occupancy_status'];
+    $badgeClass = '';
+    if ($statusKey === 'active') {
+        $badgeClass = 'label label-success';
+    } elseif ($statusKey === 'expiring_soon') {
+        $badgeClass = 'label label-warning';
+    } elseif ($statusKey === 'expired') {
+        $badgeClass = 'label label-danger';
+    } else {
+        $badgeClass = 'label label-default';
+    }
+    echo "<span class=\"$badgeClass\">$statusLabel</span>";
+    
+    if ($timeline['renewal_count'] > 0) {
+        echo "<br><small class='text-muted'>Renewals: " . (int)$timeline['renewal_count'] . "</small>";
+    }
+    ?>
+</td>
+<td class="admin-actions-cell">
+<a href="manage-students.php?renew=<?php echo $row->id;?>" class="admin-action-btn admin-action-btn-edit" title="Renew Room" onclick="return confirm('Renew this room for 1 more month?');"><i class="fa fa-refresh"></i><span>Renew</span></a>
+<a href="javascript:void(0);" class="admin-action-btn admin-action-btn-view" onClick="popUpWindow('http://localhost/hostel/admin/full-profile.php?id=<?php echo $row->id;?>');" title="View Full Details"><i class="fa fa-desktop"></i><span>View</span></a>
+<a href="manage-students.php?del=<?php echo $row->id;?>" class="admin-action-btn admin-action-btn-delete" title="Delete Record" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i><span>Delete</span></a></td>
 										</tr>
 									<?php
 $cnt=$cnt+1;
@@ -116,6 +173,7 @@ $cnt=$cnt+1;
 										
 									</tbody>
 								</table>
+								</div>
 
 								
 							</div>

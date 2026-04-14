@@ -19,70 +19,169 @@ $stmt->close();
 if (!$row) {
     exit('No booking record found.');
 }
+
+$totalFee = $row['foodstatus'] == 1 ? (($row['duration'] * $row['feespm']) + 2000) : ($row['duration'] * $row['feespm']);
 ?>
 <script>
 function f2() { window.close(); }
 function f3() { window.print(); }
 </script>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="iso-8859-1" />
-<title>Student Information</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
-<link href="hostel.css" rel="stylesheet" type="text/css">
+    <meta charset="utf-8">
+    <title>Student Information</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/user-ui.css">
 </head>
-<body>
-<table width="100%" border="0">
-    <tr><td colspan="2" align="center" class="font1">&nbsp;</td></tr>
-    <tr><td colspan="2" align="center" class="font1">&nbsp;</td></tr>
-    <tr><td colspan="2" class="font"><?php echo ucfirst($row['firstName']); ?> <?php echo ucfirst($row['lastName']); ?>'S <span class="font1">information &raquo;</span></td></tr>
-    <tr><td colspan="2" class="font"><div align="right">Reg Date : <span class="comb-value"><?php echo htmlspecialchars($row['postingDate']); ?></span></div></td></tr>
-    <tr><td colspan="2" class="heading" style="color:red;">Room Related Info &raquo;</td></tr>
-    <tr><td colspan="2" class="font1">
-        <table width="100%" border="0">
-            <tr><td class="heading">Room no :</td><td class="comb-value1"><?php echo htmlspecialchars($row['roomno']); ?></td></tr>
-            <tr><td class="heading">Seater :</td><td class="comb-value1"><?php echo htmlspecialchars($row['seater']); ?></td></tr>
-            <tr><td class="heading">Fees PM :</td><td class="comb-value1"><?php echo htmlspecialchars($row['feespm']); ?></td></tr>
-            <tr><td class="heading">Food Status:</td><td class="comb-value1"><?php echo $row['foodstatus'] == 0 ? 'Without Food' : 'With Food'; ?></td></tr>
-            <tr><td class="heading">Staying From:</td><td class="comb-value1"><?php echo htmlspecialchars($row['stayfrom']); ?></td></tr>
-            <tr><td class="heading">Duration:</td><td class="comb-value1"><?php echo htmlspecialchars($row['duration']); ?></td></tr>
-            <tr><td class="heading">Total Fee:</td><td class="comb-value1"><?php echo $row['foodstatus'] == 1 ? (($row['duration'] * $row['feespm']) + 2000) : ($row['duration'] * $row['feespm']); ?></td></tr>
-            <tr><td colspan="2" class="heading" style="color:red;">Personal Info &raquo;</td></tr>
-            <tr><td class="heading">Course:</td><td class="comb-value1"><?php echo htmlspecialchars($row['course']); ?></td></tr>
-            <tr><td class="heading">Reg no:</td><td class="comb-value1"><?php echo htmlspecialchars($row['regno']); ?></td></tr>
-            <tr><td class="heading">First Name:</td><td class="comb-value1"><?php echo htmlspecialchars($row['firstName']); ?></td></tr>
-            <tr><td class="heading">Middle Name:</td><td class="comb-value1"><?php echo htmlspecialchars($row['middleName']); ?></td></tr>
-            <tr><td class="heading">Last Name:</td><td class="comb-value1"><?php echo htmlspecialchars($row['lastName']); ?></td></tr>
-            <tr><td class="heading">Gender:</td><td class="comb-value1"><?php echo htmlspecialchars($row['gender']); ?></td></tr>
-            <tr><td class="heading">Contact No:</td><td class="comb-value1"><?php echo htmlspecialchars($row['contactno']); ?></td></tr>
-            <tr><td class="heading">Email id:</td><td class="comb-value1"><?php echo htmlspecialchars($row['emailid']); ?></td></tr>
-            <tr><td class="heading">Emergency Contact:</td><td class="comb-value1"><?php echo htmlspecialchars($row['egycontactno']); ?></td></tr>
-            <tr><td class="heading">Guardian Name:</td><td class="comb-value1"><?php echo htmlspecialchars($row['guardianName']); ?></td></tr>
-            <tr><td class="heading">Guardian Relation:</td><td class="comb-value1"><?php echo htmlspecialchars($row['guardianRelation']); ?></td></tr>
-            <tr><td class="heading">Guardian Contact:</td><td class="comb-value1"><?php echo htmlspecialchars($row['guardianContactno']); ?></td></tr>
-            <tr><td colspan="2" class="heading" style="color:red;">Correspondence Address &raquo;</td></tr>
-            <tr><td class="heading">Address:</td><td class="comb-value1"><?php echo htmlspecialchars($row['corresAddress']); ?></td></tr>
-            <tr><td class="heading">City:</td><td class="comb-value1"><?php echo htmlspecialchars($row['corresCIty']); ?></td></tr>
-            <tr><td class="heading">State:</td><td class="comb-value1"><?php echo htmlspecialchars($row['corresState']); ?></td></tr>
-            <tr><td class="heading">Pincode:</td><td class="comb-value1"><?php echo htmlspecialchars($row['corresPincode']); ?></td></tr>
-            <tr><td colspan="2" class="heading" style="color:red;">Permanent Address &raquo;</td></tr>
-            <tr><td class="heading">Address:</td><td class="comb-value1"><?php echo htmlspecialchars($row['pmntAddress']); ?></td></tr>
-            <tr><td class="heading">City:</td><td class="comb-value1"><?php echo htmlspecialchars($row['pmntCity']); ?></td></tr>
-            <tr><td class="heading">State:</td><td class="comb-value1"><?php echo htmlspecialchars($row['pmnatetState']); ?></td></tr>
-            <tr><td class="heading">Pincode:</td><td class="comb-value1"><?php echo htmlspecialchars($row['pmntPincode']); ?></td></tr>
-        </table>
-    </td></tr>
-    <tr>
-        <td colspan="2" align="right">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="35%" class="comb-value"><input type="submit" class="txtbox4" value="Print this Document" onclick="return f3();" /></td>
-                    <td width="26%"><input type="submit" class="txtbox4" value="Close this Document" onclick="return f2();" /></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+<body class="print-shell">
+    <div class="print-card">
+        <div class="print-head">
+            <h1><?php echo htmlspecialchars(ucfirst($row['firstName']) . ' ' . ucfirst($row['lastName'])); ?>'s Information</h1>
+            <p>Registration date: <?php echo htmlspecialchars($row['postingDate']); ?></p>
+        </div>
+        <div class="print-body">
+            <div class="ui-grid cols-2">
+                <div class="ui-data-card">
+                    <h3 class="ui-section-title">Room Related Info</h3>
+                    <div class="ui-data-list">
+                        <div class="ui-data-item">
+                            <span>Room No</span>
+                            <strong><?php echo htmlspecialchars($row['roomno']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Seater</span>
+                            <strong><?php echo htmlspecialchars($row['seater']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Fees Per Month</span>
+                            <strong><?php echo htmlspecialchars($row['feespm']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Food Status</span>
+                            <strong><?php echo $row['foodstatus'] == 0 ? 'Without Food' : 'With Food'; ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Staying From</span>
+                            <strong><?php echo htmlspecialchars($row['stayfrom']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Duration</span>
+                            <strong><?php echo htmlspecialchars($row['duration']); ?> Months</strong>
+                        </div>
+                        <div class="ui-data-item full">
+                            <span>Total Fee</span>
+                            <strong><?php echo htmlspecialchars($totalFee); ?></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-data-card">
+                    <h3 class="ui-section-title">Personal Info</h3>
+                    <div class="ui-data-list">
+                        <div class="ui-data-item">
+                            <span>Course</span>
+                            <strong><?php echo htmlspecialchars($row['course']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Registration No</span>
+                            <strong><?php echo htmlspecialchars($row['regno']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>First Name</span>
+                            <strong><?php echo htmlspecialchars($row['firstName']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Middle Name</span>
+                            <strong><?php echo htmlspecialchars($row['middleName']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Last Name</span>
+                            <strong><?php echo htmlspecialchars($row['lastName']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Gender</span>
+                            <strong><?php echo htmlspecialchars($row['gender']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Contact No</span>
+                            <strong><?php echo htmlspecialchars($row['contactno']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Email Id</span>
+                            <strong><?php echo htmlspecialchars($row['emailid']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Emergency Contact</span>
+                            <strong><?php echo htmlspecialchars($row['egycontactno']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Guardian Name</span>
+                            <strong><?php echo htmlspecialchars($row['guardianName']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Guardian Relation</span>
+                            <strong><?php echo htmlspecialchars($row['guardianRelation']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>Guardian Contact</span>
+                            <strong><?php echo htmlspecialchars($row['guardianContactno']); ?></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-grid cols-2" style="margin-top: 20px;">
+                <div class="ui-data-card">
+                    <h3 class="ui-section-title">Correspondence Address</h3>
+                    <div class="ui-data-list">
+                        <div class="ui-data-item full">
+                            <span>Address</span>
+                            <strong><?php echo htmlspecialchars($row['corresAddress']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>City</span>
+                            <strong><?php echo htmlspecialchars($row['corresCIty']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>State</span>
+                            <strong><?php echo htmlspecialchars($row['corresState']); ?></strong>
+                        </div>
+                        <div class="ui-data-item full">
+                            <span>Pincode</span>
+                            <strong><?php echo htmlspecialchars($row['corresPincode']); ?></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-data-card">
+                    <h3 class="ui-section-title">Permanent Address</h3>
+                    <div class="ui-data-list">
+                        <div class="ui-data-item full">
+                            <span>Address</span>
+                            <strong><?php echo htmlspecialchars($row['pmntAddress']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>City</span>
+                            <strong><?php echo htmlspecialchars($row['pmntCity']); ?></strong>
+                        </div>
+                        <div class="ui-data-item">
+                            <span>State</span>
+                            <strong><?php echo htmlspecialchars($row['pmnatetState']); ?></strong>
+                        </div>
+                        <div class="ui-data-item full">
+                            <span>Pincode</span>
+                            <strong><?php echo htmlspecialchars($row['pmntPincode']); ?></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="print-actions">
+                <button type="button" class="btn btn-primary" onclick="return f3();">Print this Document</button>
+                <button type="button" class="btn btn-default" onclick="return f2();">Close this Document</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

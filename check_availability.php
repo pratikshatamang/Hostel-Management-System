@@ -2,6 +2,7 @@
 session_start();
 require_once 'includes/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/booking.php';
 
 if (!empty($_POST['emailid'])) {
     $email = trim($_POST['emailid']);
@@ -47,15 +48,18 @@ if (!empty($_POST['oldpassword'])) {
 
 if (!empty($_POST['roomno'])) {
     $roomno = (int) $_POST['roomno'];
-    $stmt = $mysqli->prepare('SELECT COUNT(*) FROM registration WHERE roomno = ?');
-    $stmt->bind_param('i', $roomno);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
+    $availability = hms_get_room_availability($mysqli, $roomno);
 
-    echo $count > 0
-        ? "<span style='color:red'>" . $count . " seat(s) already booked.</span>"
-        : "<span style='color:green'>Room is available.</span>";
+    if (!$availability['exists']) {
+        echo "<span style='color:red'>Selected room was not found.</span>";
+        exit();
+    }
+
+    if ($availability['is_full']) {
+        echo "<span style='color:red'>Room is full. Occupancy: " . $availability['occupied'] . "/" . $availability['capacity'] . ".</span>";
+        exit();
+    }
+
+    echo "<span style='color:green'>Room available. Occupancy: " . $availability['occupied'] . "/" . $availability['capacity'] . ". Remaining seats: " . $availability['remaining'] . ".</span>";
 }
 ?>

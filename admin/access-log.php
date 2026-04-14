@@ -34,11 +34,23 @@ check_login();
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h2 class="page-title" style="margin-top:4%">Access Log</h2>
-						<div class="panel panel-default">
-							<div class="panel-heading">All Courses Details</div>
+						<div class="admin-page-header admin-page-header-management">
+							<div>
+								<span class="admin-page-kicker">Audit Trail</span>
+								<h2 class="page-title">Access Log</h2>
+								<p class="admin-page-subtitle">Review recorded user sign-in activity, locations, and login timestamps in a cleaner audit table.</p>
+							</div>
+						</div>
+						<div class="panel panel-default admin-table-card">
+							<div class="panel-heading admin-table-card-head">
+								<div>
+									<h3 class="admin-section-title">User Access History</h3>
+									<p class="admin-section-subtitle">The underlying access log data remains unchanged.</p>
+								</div>
+							</div>
 							<div class="panel-body">
-								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+								<div class="table-responsive admin-table-wrap">
+								<table id="zctb" class="display table admin-data-table" cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th>Sno.</th>
@@ -88,6 +100,7 @@ $cnt=$cnt+1;
 										
 									</tbody>
 								</table>
+								</div>
 
 								
 							</div>
