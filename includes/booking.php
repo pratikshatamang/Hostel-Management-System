@@ -646,6 +646,40 @@ function hms_khalti_base_url()
         : 'https://dev.khalti.com/api/v2/';
 }
 
+function hms_khalti_environment()
+{
+    return defined('KHALTI_ENVIRONMENT') ? strtolower(trim((string) KHALTI_ENVIRONMENT)) : 'sandbox';
+}
+
+function hms_khalti_checkout_url($paymentUrl)
+{
+    $paymentUrl = trim((string) $paymentUrl);
+    if ($paymentUrl === '') {
+        return '';
+    }
+
+    $parts = parse_url($paymentUrl);
+    if ($parts === false || empty($parts['host'])) {
+        return $paymentUrl;
+    }
+
+    $host = strtolower((string) $parts['host']);
+    if (hms_khalti_environment() !== 'production' && $host === 'pay.khalti.com') {
+        $parts['host'] = 'test-pay.khalti.com';
+    }
+
+    $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : 'https://';
+    $user = isset($parts['user']) ? $parts['user'] : '';
+    $pass = isset($parts['pass']) ? ':' . $parts['pass'] : '';
+    $auth = $user !== '' ? $user . $pass . '@' : '';
+    $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+    $path = isset($parts['path']) ? $parts['path'] : '';
+    $query = isset($parts['query']) ? '?' . $parts['query'] : '';
+    $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
+
+    return $scheme . $auth . $parts['host'] . $port . $path . $query . $fragment;
+}
+
 function hms_app_base_url()
 {
     $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
@@ -740,6 +774,7 @@ function hms_khalti_initiate_payment(array $pendingBooking)
 
     $response = hms_khalti_api_request('epayment/initiate/', $payload);
     if ($response['success'] && !empty($response['data']['pidx']) && !empty($response['data']['payment_url'])) {
+        $response['data']['payment_url'] = hms_khalti_checkout_url($response['data']['payment_url']);
         $response['purchase_order_id'] = $purchaseOrderId;
     }
 
@@ -831,53 +866,121 @@ function hms_finalize_pending_booking(mysqli $mysqli, array $pendingBooking, $pa
         );
     }
 
-    $query = 'INSERT INTO registration(
-        roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresState,corresPincode,pmntAddress,pmntCity,pmnatetState,pmntPincode,payment_method,payment_status,transaction_id
-    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    $latestBooking = hms_get_latest_booking_by_email($mysqli, $emailId);
+    $existingBookingId = $latestBooking ? (int) $latestBooking['id'] : 0;
+    $isExistingRenewal = $isRenewal && $renewalSourceBookingId > 0 && $existingBookingId === $renewalSourceBookingId;
 
-    $stmt = $mysqli->prepare($query);
-    if (!$stmt) {
-        return array(
-            'success' => false,
-            'message' => 'Unable to prepare booking allocation.',
+    if ($existingBookingId > 0) {
+        $query = 'UPDATE registration SET
+            roomno = ?, seater = ?, feespm = ?, foodstatus = ?, stayfrom = ?, duration = ?, course = ?, regno = ?, firstName = ?, middleName = ?, lastName = ?, gender = ?, contactno = ?, emailid = ?, egycontactno = ?, guardianName = ?, guardianRelation = ?, guardianContactno = ?, corresAddress = ?, corresCIty = ?, corresState = ?, corresPincode = ?, pmntAddress = ?, pmntCity = ?, pmnatetState = ?, pmntPincode = ?, payment_method = ?, payment_status = ?, transaction_id = ?, checkout_date = NULL, renewal_count = ?
+            WHERE id = ? LIMIT 1';
+
+        $stmt = $mysqli->prepare($query);
+        if (!$stmt) {
+            return array(
+                'success' => false,
+                'message' => 'Unable to prepare booking update.',
+            );
+        }
+
+        $renewalCount = isset($latestBooking['renewal_count']) ? (int) $latestBooking['renewal_count'] : 0;
+        if ($isExistingRenewal) {
+            $renewalCount++;
+        }
+
+        $types = str_repeat('s', 29) . 'ii';
+        $stmt->bind_param(
+            $types,
+            $pendingBooking['roomno'],
+            $pendingBooking['seater'],
+            $pendingBooking['feespm'],
+            $pendingBooking['foodstatus'],
+            $pendingBooking['stayfrom'],
+            $pendingBooking['duration'],
+            $pendingBooking['course'],
+            $pendingBooking['regno'],
+            $pendingBooking['fname'],
+            $pendingBooking['mname'],
+            $pendingBooking['lname'],
+            $pendingBooking['gender'],
+            $pendingBooking['contactno'],
+            $pendingBooking['emailid'],
+            $pendingBooking['emcntno'],
+            $pendingBooking['gurname'],
+            $pendingBooking['gurrelation'],
+            $pendingBooking['gurcntno'],
+            $pendingBooking['caddress'],
+            $pendingBooking['ccity'],
+            $pendingBooking['cstate'],
+            $pendingBooking['cpincode'],
+            $pendingBooking['paddress'],
+            $pendingBooking['pcity'],
+            $pendingBooking['pstate'],
+            $pendingBooking['ppincode'],
+            $paymentMethod,
+            $paymentStatus,
+            $transactionId,
+            $renewalCount,
+            $existingBookingId
+        );
+    } else {
+        $query = 'INSERT INTO registration(
+            roomno,seater,feespm,foodstatus,stayfrom,duration,course,regno,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresState,corresPincode,pmntAddress,pmntCity,pmnatetState,pmntPincode,payment_method,payment_status,transaction_id
+        ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+
+        $stmt = $mysqli->prepare($query);
+        if (!$stmt) {
+            return array(
+                'success' => false,
+                'message' => 'Unable to prepare booking allocation.',
+            );
+        }
+
+        $types = str_repeat('s', 29);
+        $stmt->bind_param(
+            $types,
+            $pendingBooking['roomno'],
+            $pendingBooking['seater'],
+            $pendingBooking['feespm'],
+            $pendingBooking['foodstatus'],
+            $pendingBooking['stayfrom'],
+            $pendingBooking['duration'],
+            $pendingBooking['course'],
+            $pendingBooking['regno'],
+            $pendingBooking['fname'],
+            $pendingBooking['mname'],
+            $pendingBooking['lname'],
+            $pendingBooking['gender'],
+            $pendingBooking['contactno'],
+            $pendingBooking['emailid'],
+            $pendingBooking['emcntno'],
+            $pendingBooking['gurname'],
+            $pendingBooking['gurrelation'],
+            $pendingBooking['gurcntno'],
+            $pendingBooking['caddress'],
+            $pendingBooking['ccity'],
+            $pendingBooking['cstate'],
+            $pendingBooking['cpincode'],
+            $pendingBooking['paddress'],
+            $pendingBooking['pcity'],
+            $pendingBooking['pstate'],
+            $pendingBooking['ppincode'],
+            $paymentMethod,
+            $paymentStatus,
+            $transactionId
         );
     }
 
-    $types = str_repeat('s', 29);
-    $stmt->bind_param(
-        $types,
-        $pendingBooking['roomno'],
-        $pendingBooking['seater'],
-        $pendingBooking['feespm'],
-        $pendingBooking['foodstatus'],
-        $pendingBooking['stayfrom'],
-        $pendingBooking['duration'],
-        $pendingBooking['course'],
-        $pendingBooking['regno'],
-        $pendingBooking['fname'],
-        $pendingBooking['mname'],
-        $pendingBooking['lname'],
-        $pendingBooking['gender'],
-        $pendingBooking['contactno'],
-        $pendingBooking['emailid'],
-        $pendingBooking['emcntno'],
-        $pendingBooking['gurname'],
-        $pendingBooking['gurrelation'],
-        $pendingBooking['gurcntno'],
-        $pendingBooking['caddress'],
-        $pendingBooking['ccity'],
-        $pendingBooking['cstate'],
-        $pendingBooking['cpincode'],
-        $pendingBooking['paddress'],
-        $pendingBooking['pcity'],
-        $pendingBooking['pstate'],
-        $pendingBooking['ppincode'],
-        $paymentMethod,
-        $paymentStatus,
-        $transactionId
-    );
+    try {
+        $executed = $stmt->execute();
+    } catch (mysqli_sql_exception $exception) {
+        $stmt->close();
+        return array(
+            'success' => false,
+            'message' => 'Failed to save the booking. ' . $exception->getMessage(),
+        );
+    }
 
-    $executed = $stmt->execute();
     $stmt->close();
 
     if (!$executed) {
